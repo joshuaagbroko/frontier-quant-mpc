@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPC Intelligence · Track Record | The Frontier Quant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <!--
+  ═══════════════════════════════════════════════════════════════
+  HOW TO UPDATE THIS PAGE
+  ═══════════════════════════════════════════════════════════════
+
+  1. UPDATE CONFIG — change lastUpdated every time you push
+  2. ADD A ROW — copy the template below and add to PREDICTIONS[]
+
+  ROW TEMPLATE:
+  {
+    meetingNumber: "306th",
+    meetingDate:   "2026-07-21",       // announcement date
+    publishedDate: "2026-07-17",       // date you posted on LinkedIn
+    linkedinUrl:   "https://...",      // your LinkedIn post URL
+    composite:     5.82,               // composite at time of publishing (null = unknown)
+    prior:         "Cut",              // your call: "Hike" | "Hold" | "Cut"
+    actual:        null,               // fill in after meeting: "Hike" | "Hold" | "Cut"
+    notes:         ""                  // optional: one sentence on what you missed or got right
+  }
+
+  3. SAVE + PUSH TO GITHUB — page updates in ~60 seconds
+  ═══════════════════════════════════════════════════════════════
+  -->
+
+  <script>
+    // ── EDIT THIS SECTION ONLY ────────────────────────────────
+    const CONFIG = {
+      lastUpdated:    "2026-07-13",
+      author:         "Joshua Agbroko",
+      publication:    "The Frontier Quant",
+      linkedinProfile:"https://linkedin.com/in/joshua-agbroko",
+      substackUrl:    "https://thefrontierquant.substack.com",
+      tagline:        "Systematic Nigerian Monetary Policy Intelligence"
+    };
+
+    const PREDICTIONS = [
+      // Most recent first
+      {
+        meetingNumber: "306th",
+        meetingDate:   "2026-07-21",
+        publishedDate: "2026-07-17",
+        linkedinUrl:   "",             // add URL after publishing
+        composite:     null,           // add after processing May statements
+        prior:         null,           // add when you publish: "Hike" | "Hold" | "Cut"
+        actual:        null,
+        notes:         ""
+      }
+      // ── ADD FUTURE ROWS ABOVE THIS LINE ──────────────────────
+    ];
+    // ── END OF EDITABLE SECTION ───────────────────────────────
+  </script>
+
+  <style>
+    /* ── Purple accent included per user preference ── */
+    :root {
+      --bg:           #080F18;
+      --surface:      #0D1B28;
+      --border:       #1A3048;
+      --border-light: #0F2035;
+      --text:         #C8D8E8;
+      --text-muted:   #4E6E88;
+      --text-dim:     #2E4A60;
+      --gold:         #C8A84B;
+      --gold-dim:     #6B5420;
+      --purple:       #7C5CBF;   /* composite score accent */
+      --purple-dim:   #2A1F48;
+      --green:        #1A7A42;
+      --green-bg:     #081A10;
+      --green-text:   #4ADE80;
+      --red:          #8B1C2C;
+      --red-bg:       #1A0608;
+      --red-text:     #F87171;
+      --amber:        #8B6420;
+      --amber-bg:     #1A1004;
+      --amber-text:   #FCD34D;
+      --mono:         'IBM Plex Mono', monospace;
+      --sans:         'Space Grotesk', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 15px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0 1.5rem;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .brand-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .page-title span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .header-meta a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── MAIN CONTENT ────────────────────────────────────────── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── WHAT IS THIS ────────────────────────────────────────── */
+    .description {
+      padding: 1.75rem 0 0;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 1.75rem;
+    }
+
+    .description p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    .description p + p {
+      margin-top: 0.6rem;
+    }
+
+    .description strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── STATS ROW ───────────────────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin: 1.75rem 0;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .stat-card:last-child {
+      border-left: 2px solid var(--purple);
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .stat-value.gold   { color: var(--gold); }
+    .stat-value.purple { color: var(--purple); }
+    .stat-value.green  { color: var(--green-text); }
+    .stat-value.muted  { color: var(--text-muted); font-size: 1.2rem; }
+
+    .stat-sub {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 0.1rem;
+    }
+
+    /* ── SECTION LABEL ───────────────────────────────────────── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── TABLE ───────────────────────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    thead tr {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    th.composite-col {
+      color: var(--purple);
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr.row-pending { background: color-mix(in srgb, var(--amber-bg) 60%, transparent); }
+    tr.row-correct { background: color-mix(in srgb, var(--green-bg) 50%, transparent); }
+    tr.row-incorrect { background: color-mix(in srgb, var(--red-bg) 50%, transparent); }
+
+    .td-meeting {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .td-date { color: var(--text-muted); }
+
+    .td-link a {
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .td-link a:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .td-link.no-link {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .td-composite {
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    .td-composite.empty { color: var(--text-dim); }
+
+    .td-prior, .td-actual {
+      font-weight: 500;
+    }
+
+    .td-prior.hike, .td-actual.hike { color: #F87171; }
+    .td-prior.hold, .td-actual.hold { color: var(--amber-text); }
+    .td-prior.cut,  .td-actual.cut  { color: var(--green-text); }
+    .td-prior.empty, .td-actual.empty { color: var(--text-dim); font-style: italic; font-weight: 400; }
+
+    .td-actual.pending { color: var(--text-dim); font-style: italic; font-weight: 400; }
+
+    /* Status badge */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+    }
+
+    .badge-correct {
+      background: var(--green-bg);
+      color: var(--green-text);
+      border: 1px solid var(--green);
+    }
+
+    .badge-incorrect {
+      background: var(--red-bg);
+      color: var(--red-text);
+      border: 1px solid var(--red);
+    }
+
+    .badge-pending {
+      background: var(--amber-bg);
+      color: var(--amber-text);
+      border: 1px solid var(--amber);
+    }
+
+    .td-notes {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.72rem;
+      max-width: 220px;
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    .td-notes.empty { color: var(--text-dim); }
+
+    /* Days-before tag */
+    .days-before {
+      display: block;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+    }
+
+    /* ── METHODOLOGY ─────────────────────────────────────────── */
+    .methodology {
+      border: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .methodology-toggle {
+      width: 100%;
+      background: var(--surface);
+      border: none;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .methodology-toggle:hover { color: var(--text); }
+
+    .toggle-icon {
+      font-size: 1rem;
+      transition: transform 0.2s;
+      color: var(--text-dim);
+    }
+
+    .methodology-toggle[aria-expanded="true"] .toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    .methodology-body {
+      display: none;
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .methodology-body.open { display: block; }
+
+    .methodology-body p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      max-width: 680px;
+    }
+
+    .methodology-body p + p { margin-top: 0.75rem; }
+
+    .methodology-body strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .methodology-body a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0;
+      margin-top: 1rem;
+    }
+
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-brand {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+
+    .footer-brand span { color: var(--gold); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── EMPTY STATE ─────────────────────────────────────────── */
+    .empty-row td {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-style: italic;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .header-meta { text-align: left; }
+      th.td-notes-col, td.td-notes { display: none; }
+      .page-title { font-size: 1.3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .toggle-icon { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-name">The Frontier Quant</div>
+        <h1 class="page-title">MPC Intelligence <span>· Track Record</span></h1>
+      </div>
+      <div class="header-meta" id="header-meta">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="description">
+      <p>
+        Every prediction in this table was published publicly on LinkedIn
+        <strong>before the CBN Monetary Policy Committee meeting</strong>, using a
+        hawk-dove composite derived from member personal statements and FMDQ forward
+        FX data. The LinkedIn link in each row timestamps the call independently.
+      </p>
+      <p>
+        This framework does not predict decisions — it <strong>quantifies the
+        committee's communication stance</strong> and compares it with market
+        expectations. Where the two diverge, the briefing explains why.
+        Predictions are a by-product, not the product.
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- PREDICTION TABLE -->
+    <div class="section-label">Prediction Log</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Meeting</th>
+            <th>Meeting Date</th>
+            <th>Published</th>
+            <th>Verify</th>
+            <th class="composite-col">Composite</th>
+            <th>My Prior</th>
+            <th>Actual</th>
+            <th>Result</th>
+            <th class="td-notes-col">Note</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <!-- rendered by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="section-label">Framework</div>
+    <div class="methodology">
+      <button class="methodology-toggle" aria-expanded="false" onclick="toggleMethodology(this)">
+        How the hawk-dove composite is constructed
+        <span class="toggle-icon">+</span>
+      </button>
+      <div class="methodology-body" id="methodology-body">
+        <p>
+          After each MPC meeting, the CBN publishes a personal statement from every
+          committee member. I read all statements and assign a <strong>hawk score
+          of 1–10</strong> to each member using a documented rubric: language markers
+          such as describing inflation as "entrenched" or "demand-driven" score
+          positively; language emphasising growth risk or incomplete transmission
+          scores negatively. The composite is the mean hawk score across all scored
+          members.
+        </p>
+        <p>
+          A second signal — the <strong>FMDQ 3-month forward premium</strong> — tracks
+          the market's implied naira depreciation expectation. A widening spread
+          historically precedes MPC caution about further easing. A third signal,
+          the <strong>asymmetric corridor width</strong>, captures the CBN's liquidity
+          stance independently of the headline MPR: a narrow upper band signals
+          accommodation before the committee acknowledges it in rate decisions.
+        </p>
+        <p>
+          The composite is a communication tracker, not a vote predictor.
+          When the composite diverges from market expectations, it identifies
+          a gap worth explaining — whether or not that gap resolves in the
+          announced decision. Full methodology and historical data available on
+          <a href="" id="substack-link" target="_blank" rel="noopener">Substack</a>.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span>The Frontier Quant</span> · Joshua Agbroko ·
+        NGX equity &amp; frontier market research
+      </div>
+      <div class="footer-links">
+        <a href="" id="footer-substack" target="_blank" rel="noopener">Substack</a>
+        <a href="" id="footer-linkedin" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── HELPERS ───────────────────────────────────────────────
+    function daysBetween(d1, d2) {
+      const a = new Date(d1), b = new Date(d2);
+      return Math.round((b - a) / 86400000);
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function decisionClass(d) {
+      if (!d) return 'empty';
+      return d.toLowerCase();
+    }
+
+    function getStatus(row) {
+      if (!row.prior || !row.actual) return 'pending';
+      return row.prior === row.actual ? 'correct' : 'incorrect';
+    }
+
+    // ── RENDER STATS ──────────────────────────────────────────
+    function renderStats() {
+      const settled   = PREDICTIONS.filter(r => r.prior && r.actual);
+      const correct   = settled.filter(r => r.prior === r.actual).length;
+      const pending   = PREDICTIONS.filter(r => !r.actual).length;
+      const total     = PREDICTIONS.length;
+      const accuracy  = settled.length > 0
+        ? Math.round(correct / settled.length * 100) + '%'
+        : '—';
+
+      const el = document.getElementById('stats-row');
+      el.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">Predictions Made</div>
+          <div class="stat-value gold">${total}</div>
+          <div class="stat-sub">Since July 2026</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Correct</div>
+          <div class="stat-value ${correct > 0 ? 'green' : ''}">${correct}</div>
+          <div class="stat-sub">${settled.length} settled</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending</div>
+          <div class="stat-value muted">${pending}</div>
+          <div class="stat-sub">Awaiting decision</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Accuracy</div>
+          <div class="stat-value purple">${accuracy}</div>
+          <div class="stat-sub">${settled.length === 0 ? 'No settled calls yet' : `of ${settled.length} settled`}</div>
+        </div>
+      `;
+    }
+
+    // ── RENDER TABLE ──────────────────────────────────────────
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+
+      if (PREDICTIONS.length === 0) {
+        tbody.innerHTML = `
+          <tr class="empty-row">
+            <td colspan="9">No predictions logged yet. The first briefing will appear here before the next MPC meeting.</td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = PREDICTIONS.map(row => {
+        const status     = getStatus(row);
+        const rowClass   = `row-${status}`;
+        const days       = row.publishedDate && row.meetingDate
+          ? daysBetween(row.publishedDate, row.meetingDate) : null;
+        const daysLabel  = days !== null
+          ? `<span class="days-before">${days} day${days !== 1 ? 's' : ''} before</span>` : '';
+
+        const verifyCell = row.linkedinUrl
+          ? `<div class="td-link"><a href="${row.linkedinUrl}" target="_blank" rel="noopener">View post ↗</a></div>`
+          : `<div class="td-link no-link">—</div>`;
+
+        const composite  = row.composite !== null && row.composite !== undefined
+          ? `<span class="td-composite">${Number(row.composite).toFixed(2)}/10</span>`
+          : `<span class="td-composite empty">—</span>`;
+
+        const priorCell  = row.prior
+          ? `<span class="td-prior ${decisionClass(row.prior)}">${row.prior}</span>`
+          : `<span class="td-prior empty">TBD</span>`;
+
+        const actualCell = row.actual
+          ? `<span class="td-actual ${decisionClass(row.actual)}">${row.actual}</span>`
+          : `<span class="td-actual pending">Pending</span>`;
+
+        const badge = status === 'correct'
+          ? `<span class="badge badge-correct">✓ Correct</span>`
+          : status === 'incorrect'
+          ? `<span class="badge badge-incorrect">✗ Incorrect</span>`
+          : `<span class="badge badge-pending">⏳ Pending</span>`;
+
+        const notesCell = row.notes
+          ? `<div class="td-notes">${row.notes}</div>`
+          : `<div class="td-notes empty">—</div>`;
+
+        return `
+        <tr class="${rowClass}">
+          <td class="td-meeting">${row.meetingNumber} MPC</td>
+          <td class="td-date">${formatDate(row.meetingDate)}</td>
+          <td class="td-date">${formatDate(row.publishedDate)}${daysLabel}</td>
+          <td>${verifyCell}</td>
+          <td>${composite}</td>
+          <td>${priorCell}</td>
+          <td>${actualCell}</td>
+          <td>${badge}</td>
+          <td class="td-notes-col">${notesCell}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // ── RENDER HEADER META ────────────────────────────────────
+    function renderMeta() {
+      document.getElementById('header-meta').innerHTML = `
+        <div>Last updated: ${formatDate(CONFIG.lastUpdated)}</div>
+        <div>${CONFIG.tagline}</div>
+        <div><a href="${CONFIG.linkedinProfile}" target="_blank" rel="noopener">@${CONFIG.author}</a></div>
+      `;
+      document.getElementById('substack-link').href  = CONFIG.substackUrl;
+      document.getElementById('footer-substack').href = CONFIG.substackUrl;
+      document.getElementById('footer-linkedin').href = CONFIG.linkedinProfile;
+    }
+
+    // ── METHODOLOGY TOGGLE ────────────────────────────────────
+    function toggleMethodology(btn) {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      document.getElementById('methodology-body').classList.toggle('open', !expanded);
+    }
+
+    // ── INIT ──────────────────────────────────────────────────
+    renderMeta();
+    renderStats();
+    renderTable();
+  </script>
+
+</body>
+</html>
